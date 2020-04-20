@@ -258,9 +258,3 @@ butt_31.grid(row=7,column=2, columnspan=2)
 main_wind.minsize(530,405)
 main_wind.maxsize(530,405)
 main_wind.mainloop()
-
-
-
-# dhjgfhjhj dgahjdh  hdashdjhaskjdhkjashdj hdashdjhaskjdhkjashdjsdghjasgdhjgdh
-# asdg hjasdghjasgdhjasdhjash dghjasgdhasg dhjgasd
-# dhasgdhjg ashdghjasd
