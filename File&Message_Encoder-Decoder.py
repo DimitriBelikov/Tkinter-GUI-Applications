@@ -3,7 +3,7 @@ import time
 from tkinter.filedialog import askopenfilename as aof
 from cryptography.fernet import Fernet
 
-# ==========================ENCRYPT_DECRYPT=======================================
+#-------------------------------------------ENCRYPT_DECRYPT CLASS---------------------------------------
 class encr_decr:
     
     @staticmethod
@@ -15,6 +15,7 @@ class encr_decr:
             
         if(value == 1):
             key_ent.insert(0,key_gen.decode())
+            res_ent.delete('1.0',tk.END)
             res_ent.insert('1.0',encr_msg.decode())
         else:
             file_key_ent.insert(0,key_gen.decode())
@@ -32,6 +33,7 @@ class encr_decr:
         decr_msg = cryp_obj.decrypt(encr_data.encode())
         
         if(value == 1):
+            res_ent.delete('1.0',tk.END)
             res_ent.insert('1.0',decr_msg.decode())
         else:
             new_file = path[0:path.rindex('/')+1]+'decrypt_'+path[path.rindex('/')+1:]
@@ -51,8 +53,8 @@ class encr_decr:
             data_ent.delete('1.0', tk.END)
             file_key_ent.delete(0, tk.END)
             new_path_ent.delete(0, tk.END)
-#==============================================================================================    
-#================================Main Window and Widgets=======================================
+ 
+#----------------------------------------MAIN WINDOW AND WIDGETS------------------------------------------
 main_wind = tk.Tk()
 main_wind.geometry('690x640')
 main_wind.title('Word Encoder Decoder')
@@ -62,21 +64,21 @@ main_wind.rowconfigure(1, weight=1)
 main_wind.rowconfigure(2, weight=1)
 main_wind.rowconfigure(3, weight=1)
 main_wind.rowconfigure(4, weight=3)
-# ---------------------------------FRAME 1------------------------------------
+# ---------------------------------------------FRAME 1-----------------------------------------------------
 fram_1 = tk.Frame(main_wind,width=640, height=320, bg='#14ffcc')
 fram_1.grid(row=0,column=0)
 
-#----------------------------------HEADING------------------------------------ 
+#--------------------------------------------HEADING------------------------------------------------------- 
 hd_lab = tk.Label(fram_1, text='Welcome !!! Now Encrypt and Decrypt Messages on your Own', 
                   font=('GEORGIA',16), fg='blue', bg='#14ffcc')
 hd_lab.grid(row=0, column=0, sticky='nsew')
 
-# ---------------------------------MESSAGE ENCRYPT----------------------------
-wd_encr_lab = tk.Label(main_wind, text='Encrypt a Message', font=('Georgia',15), bg='green')
+# -----------------------------------------MESSAGE ENCRYPT-------------------------------------------------
+wd_encr_lab = tk.Label(main_wind, text='Encrypt and Decrypt a Message', font=('Georgia',15), bg='green')
 wd_encr_lab.grid(row=1,column=0, sticky='nsew')
 wd_encr_lab['pady'] = 10
 
-# ---------------------------------FRAME 2------------------------------------
+# ------------------------------------------MESSAGE FRAME---------------------------------------------------
 fram_2 = tk.Frame(main_wind, width=320,bg='#14ffcc')
 fram_2.grid(row=2, column=0, sticky = 's')
 fram_2['pady'] = 10
@@ -87,23 +89,12 @@ fram_2.rowconfigure(1, weight=1)
 fram_2.rowconfigure(2, weight=1)
 fram_2.rowconfigure(3, weight=2, minsize=40)
 
-# ---------------------------------FRAME 3------------------------------------
-# =============================================================================
-# fram_3 = tk.Frame(main_wind, width=320, height=120, relief='groove',bg='#14ffcc')
-# fram_3.grid(row=3, column=0, sticky='nsew')
-# fram_3['pady'] = 10
-# fram_3.columnconfigure(1, weight=3)
-# fram_3.rowconfigure(0, weight=1)
-# fram_3.rowconfigure(1, weight=4)
-# 
-# =============================================================================
-
-# ---------------------------------FILE ENCRYPT LABEL-------------------------
-wd_encr_lab = tk.Label(main_wind, text='Encrypt a File', font=('Georgia',15), bg='green')
+# ----------------------------------------FILE ENCRYPT LABEL--------------------------------------------------
+wd_encr_lab = tk.Label(main_wind, text='Encrypt and Decrypt a File', font=('Georgia',15), bg='green')
 wd_encr_lab.grid(row=3,column=0, sticky='nsew')
 wd_encr_lab['pady'] = 10
 
-# ---------------------------------FILE FRAME---------------------------------
+# ---------------------------------------------FILE FRAME-------------------------------------------------------
 file_fram = tk.Frame(main_wind, relief='raised', width=12,bg='#14ffcc')
 file_fram.grid(row=4,column=0, sticky='nsew')
 file_fram['pady'] = 15
@@ -128,10 +119,8 @@ def updat_tm():
         tm_lab.config(text=nw_time)
         
     tm_lab.after(100, func=updat_tm)
-#=================================================================================================
 
-usr_key = tk.StringVar()
-
+#---------------------------------------MESSAGE FRAME WIDGETS--------------------------------------
 msg_lab = tk.Label(fram_2, text='Message', font=('GEORGIA',10), bg='#14ffcc')
 msg_ent = tk.Text(fram_2, width=50, height=2, borderwidth=2, relief='sunken', font=('Georgia',10))
 msg_lab.grid(row=0,column=0, sticky='nw')
@@ -148,22 +137,22 @@ key_lab['padx'] = 7
 
 res_lab = tk.Label(fram_2, text='Result', font=('GEORGIA',10), bg='#14ffcc')
 res_ent = tk.Text(fram_2, width=50, height=2, relief='sunken', font=('Georgia',10), borderwidth=2)
-res_lab.grid(row=2, column=0, sticky='w')
+res_lab.grid(row=2, column=0, sticky='nw')
 res_ent.grid(row=2, column=1, sticky='nsew')
 
-encrypt_but = tk.Button(fram_2, text='Encrypt', font=('GEORGIA',10), 
+encrypt_but = tk.Button(fram_2, text='Encrypt MSG', font=('GEORGIA',10), 
                         command = lambda : encr_decr.encrypt_data(msg_ent.get('1.0',tk.END),1))
-decrypt_but = tk.Button(fram_2, text='Decrypt', font=('GEORGIA',10), 
+decrypt_but = tk.Button(fram_2, text='Decrypt MSG', font=('GEORGIA',10), 
                         command = lambda : encr_decr.decrypt_data(key_ent.get(),
                                                                   msg_ent.get('1.0',tk.END),1))
-clear_but = tk.Button(fram_2, text='Clear', font=('GEORGIA',10), 
+clear_but = tk.Button(fram_2, text='Clear All', font=('GEORGIA',10), 
                       command = lambda : encr_decr.clear_msg_box(1))
 encrypt_but.grid(row=3,column=0, sticky='s')
 decrypt_but.grid(row=3, column=1, sticky='s')
 clear_but.grid(row=3, column=2, sticky='s')
 encrypt_but['padx'] = 10
 
-# ===========================FILE WIDGETS==========================================================
+# ========================================FILE-FRAME WIDGETS==================================================
 def path_file_disp(): # function to display filepath and File Data
     filename = aof()
     path_var.set(filename)
