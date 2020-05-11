@@ -14,6 +14,7 @@ class encr_decr:
         encr_msg = cryp_obj.encrypt(data.encode())
             
         if(value == 1):
+            key_ent.delete(0,tk.END)
             key_ent.insert(0,key_gen.decode())
             res_ent.delete('1.0',tk.END)
             res_ent.insert('1.0',encr_msg.decode())
